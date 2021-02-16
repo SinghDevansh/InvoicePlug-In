@@ -1,0 +1,29 @@
+
+  <mat-toolbar style="background-color: rgb(168, 118, 164); height: 80px;position: fixed;top: 0;left: 0;right: 0;">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <!-- <mat-icon>menu</mat-icon> -->
+      <img class='logo' routerLink="/home" style="width: 150px;height: 60px;" src="https://bigstep.hrone.cloud/Documents/bigstep/Company/0EbIsqgD_bigsteplogo01.png"
+    alt='bigstep'>
+    </button>
+
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <!-- <mat-icon>favorite</mat-icon> -->
+    </button>
+    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"> -->
+      <button class="btn btn-light m-1" routerLink="/invoice/new">Add Invoices</button>
+      <button class="btn btn-light m-1" *ngIf="userData.isSuperAdmin === true" (click)="addUsers()">Add Users</button>
+      <button  style="border:none;background-color:  rgb(168, 118, 164);" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle-o" style="font-size:58px;color:rgb(147, 150, 151)"></i>
+      <!-- <i class="fa fa-sort-down" style="font-size:36px;color: blue;"></i> -->
+    </button>
+      <div class="dropdown-menu">
+
+        <a  class="  dropdown-item"><span class="fi-person"></span>&nbsp;&nbsp;
+          <span style="color:green;font-size:20px;cursor: pointer;">{{ name }}</span></a>
+
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="userLogout()">LogOut</a>
+      </div>
+      <!-- <mat-icon>share</mat-icon> -->
+    <!-- </button> -->
+  </mat-toolbar>

@@ -1,0 +1,57 @@
+<app-header></app-header>
+<div class="form-container ">
+  <form [formGroup]="userEditForm" (ngSubmit) = "onSubmit()">
+
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Select an option</mat-label>
+          <mat-select formControlName="selected">
+            <mat-option value="isSuperAdmin">Admin</mat-option>
+            <mat-option value="isSalesRep">Sales</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
+        <div class="example-container">
+          <mat-form-field appearance="fill">
+            <mat-label>Enter User's name</mat-label>
+            <input matInput formControlName="name" value="name" required>
+            <!-- <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+
+        <div class="example-container">
+          <mat-form-field appearance="fill">
+            <mat-label>Enter User's email</mat-label>
+            <input matInput formControlName="email" required>
+            <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+
+        <div class="example-container">
+          <mat-form-field appearance="fill">
+            <mat-label>Enter User's Password</mat-label>
+            <input matInput formControlName="password" required>
+            <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div >
+        <button mat-button
+        mat-flat-button
+        color="primary"
+        class="add"  type="submit" >Edit User</button>
+
+        <button mat-button
+        mat-flat-button
+        color="accent"
+        class="add" type="button" (click)="onClear()">Clear</button>
+      </div>
+
+
+  </form>
+
+</div>
+<app-footer></app-footer>

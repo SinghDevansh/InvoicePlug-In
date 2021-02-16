@@ -1,0 +1,10 @@
+.form-container {
+  margin-left: 330px;
+  margin-top: 330px;
+  height: 320px;
+  width: 50%;
+  /* border: 2px solid black; */
+}
+.mat-button {
+  margin: 1px;
+}

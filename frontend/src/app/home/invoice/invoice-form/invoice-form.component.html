@@ -1,0 +1,229 @@
+<app-header></app-header>
+<!-- <button class="btn  btn-outline-secondary btn-lg" (click)='onSubmit()'>Add I9nvoicw</button> -->
+<div class="container "  style="background-color: rgb(224, 215, 215);margin-top: 100px;">
+
+  <hr>
+      <form  [formGroup]="invoiceForm" (ngSubmit) = "onSubmit()">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <div class="display-4 text-muted">Create Invoices</div>
+          </div>
+          <!-- <div class="form-group col-md-3" style="margin-left: auto;margin-top: 25px;">
+            <button class="btn btn-outline-primary btn-lg"  [disabled]="!editMode">Preview</button>
+          </div> -->
+
+        </div>
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+
+            <label for="inputCreated">Created By-</label>
+            <select id="inputCreated" class="form-control" formControlName="creator" (change)="onChange()">
+                <option selected>Select Creator</option>
+                <option>SocialEngineAddOns</option>
+                <option>Prime Messenger/ Channelize.io</option>
+                <option>AlmaHub</option>
+                <option>MegaCube</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4 ml-auto" >
+
+              <label for="invoice number">Invoice Number</label>
+              <input formControlName="invoiceNumber" type="text"  class="form-control" id="invoicenumber" placeholder="Invoice Number">
+
+          </div>
+        </div>
+        <hr>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="name" class="required">Name(Bill To)</label>
+            <input type="text" class="form-control" id="name"
+            placeholder="Enter Name" formControlName="custName">
+          </div>
+          <div class="form-group col-md-4 ml-auto">
+            <label for="invoicedate" class="required">Invoice Date:</label>
+                <input type="date" class="form-control" id="invoicedate"
+                name="invoicedate" formControlName="date">
+
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="number" class="required">Contact Number</label>
+            <input type="number" class="form-control" id="number"
+            placeholder="Contact Number" formControlName="custNumber">
+            <span style="color:red;" id="valid" *ngIf="invoiceForm.get('custNumber').status !== 'VALID' && invoiceForm.get('custNumber').touched" >
+              *Please enter a valid mobile no
+              </span>
+          </div>
+          <div class="form-group col-md-4 ml-auto">
+            <label for="address" class="required">Address</label>
+            <input type="text" class="form-control" id="address"
+            placeholder="Address" formControlName="custAddress">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="email" class="required">Email</label>
+            <input type="email" class="form-control"
+            id="email" placeholder="pat@example.com" formControlName="custEmail">
+            <span style="color:red;" id="valid" *ngIf="invoiceForm.get('custEmail').status !== 'VALID' && invoiceForm.get('custEmail').touched" >
+              *Please enter a valid Email
+              </span>
+          </div>
+          <div class="form-group col-md-4 ml-auto">
+            <label for="currency" class="required">Currency</label>
+
+            <select  id="currency" class="form-control" formControlName="currency">
+              <option >Select Currency</option>
+              <option>INR</option>
+              <option>USD</option>
+
+          </select>
+          <select *ngIf="invoiceForm.value.currency === 'INR'" id="inputCreated"
+          class="form-control" formControlName="region">
+            <option>Haryana</option>
+            <option>Other State</option>
+
+        </select>
+          </div>
+        </div>
+        <hr>
+        <button
+        type="button"
+        class="btn btn-light m-3 btn-lg"
+        (click)="addProduct()"><span>+</span>Add New Products</button>
+
+        <div class="form-row m-2" formArrayName="products">
+          <div
+              class="row"
+              *ngFor="let productCtrl of controls; let i = index"
+              [formGroupName]="i"
+               >
+              <div class="col-md-3">
+                <input
+
+                  type="text"
+                  class="form-control"
+                  placeholder="Product Name"
+                  formControlName="name">
+              </div>
+              <div class="col-md-2">
+                <input
+
+                  type="number"
+                  placeholder="Quantity"
+                  class="form-control"
+                  formControlName="quantity">
+              </div>
+              <div class="col-md-2">
+                <input
+
+                  type="number"
+                  placeholder="price"
+                  class="form-control"
+                  formControlName="price">
+              </div>
+              <div class="col-md-2">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteProduct(i)">X</button>
+              </div>
+        </div>
+        <div class="form-row mt-2" >
+          <table class="table table-bordered table-lig rgba(211, 211, 211, 0.288)ht table-striped"
+          *ngIf = "invoiceForm.controls.products.status === 'VALID'"
+          >
+            <thead>
+              <tr>
+                <th scope="col">Index</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of invoiceForm.value.products; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{row.name}}</td>
+                <td>{{row.quantity}}</td>
+                <td>{{row.price}}</td>
+                <td>${{row.price * row.quantity }}</td>
+              </tr>
+
+            </tbody>
+          </table>
+          <div class="form-row">
+           <button class="btn btn-success"
+           type="button"
+           (click)="generateTotal()">Generate Total</button>
+           <span style="color:red;">
+            *You need to generate amount again if you change region
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-row ">
+        <div class="col-md-6 ml-auto">
+          <table class="table table-striped table-bordered" *ngIf="buttonPressed">
+            <tr>
+              <th>Subtotal</th>
+              <td>{{ subtotal }}</td>
+            </tr>
+            <tr>
+              <th>Discount</th>
+              <td>{{ discount}}</td>
+            </tr>
+            <tr *ngIf="invoiceForm.value.region === 'Haryana'">
+              <th>CGST @9%</th>
+              <td>{{ cgst }}</td>
+            </tr>
+            <tr *ngIf="invoiceForm.value.region === 'Haryana'">
+              <th>SGST @9%</th>
+              <td>{{ sgst }}</td>
+            </tr>
+            <tr  *ngIf="invoiceForm.value.region === 'Other State' && invoiceForm.value.currency === 'INR'">
+              <th>IGST @18%</th>
+              <td>{{ igst }}</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <td>{{ totalTaxedAmount }}</td>
+            </tr>
+
+          </table>
+        </div>
+
+      </div>
+      <div class="form-row">
+        <div class="col-md-6 form-group mt-5">
+            <p><b>PAN Number</b>&nbsp;DDABC0760F</p>
+            <p><b>GST Number</b>&nbsp;12ABCDEF1X1056G</p>
+            <p><b>LUT Number</b>&nbsp;154/CGST/Division-North/GGN/2017-18</p>
+        </div>
+        <div class="col-md-6 ml-auto form-group">
+          <label for="ptrem" >Points To Remember</label>
+          <textarea class="form-control" id="ptrem" rows="6" cols="6" formControlName="pointsToRemember"></textarea>
+        </div>
+
+      </div>
+      <div class="form-row">
+        <label for="status" class="required">Status</label>
+        <select id="status" formControlName="status" >
+        <option >Select Payment Status</option>
+        <option>Paid</option>
+        <option>Unpaid</option>
+      </select>
+      </div>
+        <div class="row p-3 m-3">
+          <button type="submit" class="btn btn-primary m-1" [disabled]="invoiceForm.invalid">Submit</button>
+          <button type="button" class="btn btn-warning m-1" (click)="clearForm()">Clear</button>
+          <button class="btn btn-danger m-1" type="button" (click)="closeForm()">Close</button>
+        </div>
+
+      </form>
+</div>
+<app-footer></app-footer>

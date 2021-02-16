@@ -1,0 +1,100 @@
+<div style="margin-left: 50px;">
+<button class="button-style" (click)="selectedPaidStatus('All')">All</button>
+<button class="button-style" (click)="selectedPaidStatus('Paid')">Paid</button>
+<button class="button-style" (click)="selectedPaidStatus('Unpaid')">UnPaid</button>
+<button class="button-style" (click)="selectedPaidStatus('Drafted')">Drafted</button>
+<button class="button-style" (click)="selectedPaidStatus('Cancelled')">Cancelled</button>
+</div>
+  <div class="form-inline  my-3"
+   style="margin-left: 42%;margin-bottom:
+    20px;margin-right: 42%;background-color: cornsilk;">
+    <input class="form-control mr-sm-2" type="search" style="align-items: center;" placeholder="Search" matInput aria-label="Search"  (keyup)="doFilter($event)">
+
+  </div>
+  <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+  <select class="button-style">
+    <option >Batch</option>
+    <option>Mark as Paid</option>
+    <option>Mark as Unpaid</option>
+    <option>Mark as cancelled</option>
+  </select>
+
+<button class="btn btn-primary" (click)="deleteAll()">deleteaLL</button>
+<table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;" matSort>
+
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Name Column --><ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef  mat-sort-header> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.date.slice(0,10)}} </td>
+  </ng-container>
+  <ng-container matColumnDef="invoice" >
+    <th mat-header-cell *matHeaderCellDef  mat-sort-header> #Invoice </th>
+    <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
+  </ng-container>
+  <ng-container matColumnDef="recepient" >
+    <th mat-header-cell *matHeaderCellDef  mat-sort-header> Recepient </th>
+    <td mat-cell *matCellDef="let element"> {{element.custName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="creator" >
+    <th mat-header-cell *matHeaderCellDef  mat-sort-header> Creator </th>
+    <td mat-cell *matCellDef="let element"> {{element.user.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="status" >
+    <th mat-header-cell *matHeaderCellDef  mat-sort-header> Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+  </ng-container>
+  <ng-container matColumnDef="Amount" >
+    <th mat-header-cell *matHeaderCellDef  mat-sort-header> Amount </th>
+    <td mat-cell *matCellDef="let element"> ${{element.totalAmount}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action" >
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element" class="action-link">
+      <a style="cursor:pointer;color:blue;"  (click)="editInvoice(element)">Edit</a> |
+      <a style="cursor:pointer;color:blue;" (click)="deleteInvoice(element._id)">Delete</a> |
+      <a style="cursor:pointer;color:blue;" (click)="downloadInvoice(element)">Download</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="loading">
+    <mat-footer-cell *matFooterCellDef colspan="6" >Loading...</mat-footer-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="nodata">
+    <mat-footer-cell *matFooterCellDef colspan="6" >No data...</mat-footer-cell>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-footer-row *matFooterRowDef="['loading']"
+  [ngClass]="{'hide':dataSource!=null}"></tr>
+  <tr mat-footer-row *matFooterRowDef="['nodata']"
+  [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length === 0)}"></tr>
+
+</table>
+<mat-paginator
+showFirstLastButtons
+[pageSize]="10"
+[pageSizeOptions]="[3, 9, 15, 30]">
+</mat-paginator>
+
+<div style="height: 50px;">
+
+</div>

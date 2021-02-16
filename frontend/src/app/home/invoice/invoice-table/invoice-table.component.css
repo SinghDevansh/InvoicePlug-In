@@ -1,0 +1,13 @@
+.hide {
+  display: none;
+}
+mat-footer-row mat-footer-cell {
+  justify-content: center;
+}
+.button-style {
+  border-radius: 37%;
+  width: 100px;
+  margin: 0 35px;
+  border: none;
+  height: 35px;
+}
