@@ -21,8 +21,10 @@
     <option>Mark as Unpaid</option>
     <option>Mark as cancelled</option>
   </select>
-
-<button class="btn btn-primary" (click)="deleteAll()">deleteaLL</button>
+<div style="margin-left: 80%;">
+<a  style="cursor: pointer;color: blue;padding-right:15px ;" (click)="deleteAll()">Delete All</a>
+<a style="cursor: pointer;color: blue;" (click)="downloadAll()">Download All</a>
+</div>
 <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;" matSort>
 
   <ng-container matColumnDef="select">

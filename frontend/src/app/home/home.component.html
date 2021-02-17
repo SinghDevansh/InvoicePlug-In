@@ -12,8 +12,25 @@
     class="btn btn-outline-secondary btn-lg"
     (click)="addNewCreator()"><span>+</span>Add Users</button>
 <!-- <router-outlet></router-outlet> -->
+<div style="margin-left: 50%;">
+  <a  style="cursor: pointer;color: blue;padding-right:15px ;" (click)="deleteAllUsers()">Delete All Users</a>
+</div>
 
-<table  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" mat-sort>
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
 
 
 
@@ -24,8 +41,8 @@
   </ng-container> -->
 
   <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
+  <ng-container matColumnDef="name" >
+    <th mat-header-cell *matHeaderCellDef > Name </th>
     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
   </ng-container>
 
@@ -41,14 +58,15 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  <mat-paginator #paginator
-[length]="dataSource.length"
+
+</table>
+<mat-paginator
+[length]="dataSource?.data.length"
 [pageIndex]="0"
 [pageSize]="10"
-[pageSizeOptions]="[5, 10, 25, 100]">
+[pageSizeOptions]="[5, 10, 25, 100]"
+style="width:60%;">
 </mat-paginator>
-</table>
-
 
 </div>
 <hr>

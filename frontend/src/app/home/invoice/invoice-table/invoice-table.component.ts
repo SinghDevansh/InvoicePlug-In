@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { InvoiceFormComponent } from '../invoice-form/invoice-form.component';
+//import { InvoiceFormComponent } from '../invoice-form/invoice-form.component';
 import { InvoiceService } from '../invoice.service';
 // import { Invoice } from '../models/invoice.model';
 
@@ -101,8 +101,8 @@ export class InvoiceTableComponent implements OnInit {
 /** Whether the number of selected elements matches the total number of rows. */
 isAllSelected() {
   const numSelected = this.selection.selected.length;
-  // console.log(numSelected)
-   this.selectedData = this.selection.selected
+
+  this.selectedData = this.selection.selected
 
   const numRows = this.dataSource.data.length;
   return numSelected === numRows;
@@ -128,6 +128,9 @@ masterToggle() {
       this.dataSource.data.forEach(row => this.selection.select(row));
 }
   downloadAll() {
-
+    let downloadData = this.selection.selected
+    for (let i = 0; i < downloadData.length; i++){
+      this.invoiceService.genratePdf(downloadData[i])
+    }
   }
 }

@@ -1,24 +1,9 @@
 table {
-  width: 80%;
-  margin: 20px auto;
+  width: 60%;
+  margin-top: 50px;
   /* text-align: justify !important; */
 }
-/* .container {
-  padding-right: 10px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 30px;
-} */
-/* .text-center {
-  text-align: center;
-} */
-/* .add-button {
-  font-size: 30px;
-}
-.mat-button {
-  margin-left: 30px;
-} */
+
 #loading {
   display: inline-block;
   margin-left: 200px;

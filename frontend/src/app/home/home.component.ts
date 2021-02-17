@@ -6,11 +6,13 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component'
 import { AuthenticateService } from '../authenticate/authenticate.service';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserEditComponent } from './user-form/user-edit/user-edit.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 
@@ -20,10 +22,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  @ViewChild(MatTable) table: MatTable<any>
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  dataSource: User[] = []
-  displayedColumns: string[] = ['name', 'action'];
+  @ViewChild(MatSort) sort: MatSort
+ //@ViewChild(MatTable) table: MatTable
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  selection = new SelectionModel<any>(true, []);
+  selectedData
+  dataSource:MatTableDataSource<any>
+  displayedColumns: string[] = ['select','name', 'action'];
   errorMessage: string = ''
   loading:boolean = false
   id: string
@@ -64,7 +69,11 @@ export class HomeComponent implements OnInit{
     this.homeService.getUsers().subscribe(res => {
       //console.log(res)
       this.loading = false
-      this.dataSource = res
+      this.dataSource = new MatTableDataSource(res)
+      this.dataSource.sort = this.sort
+      this.dataSource.paginator = this.paginator
+      console.log(this.dataSource)
+
     })
    }
 
@@ -89,7 +98,7 @@ export class HomeComponent implements OnInit{
   editUser(id) {
     this.router.navigate([`/${id}/edit`], { relativeTo: this.route })
     this.editMode = true
-    this.table.renderRows()
+    //this.table.renderRows()
     //this.ngOnInit()
     // console.log(element)
     // this.createEditForm()
@@ -145,17 +154,46 @@ export class HomeComponent implements OnInit{
           // this.refreshTable()
           this.toast.success('Deleted user')
           //console.log(row)
-          this.dataSource = this.dataSource.filter((value) =>
+          this.dataSource.data = this.dataSource.data.filter((value) =>
             value._id !== id
           )
 
         })
       }})
   }
+  deleteAllUsers() {
+    for (let i = 0; i < this.selectedData.length; i++){
+      //console.log(this.selectedData[i])
+      this.homeService.deleteUser(this.selectedData[i]._id).subscribe((res) => {
+        this.dataSource.data = this.dataSource.data.filter((value) =>
+            value._id !== this.selectedData[i]._id
+          )
+        //console.log(res)
+        this.toast.success('users deleted')
+      })
+    }
+   // this.dataSource.data = this.selectedData
+
+}
   // private refreshTable() {
   //   // Refreshing table using paginator
   //   // Thanks yeager-j for tips
   //   // https://github.com/marinantonio/angular-mat-table-crud/issues/12
   //   this.paginator._changePageSize(this.paginator.pageSize);
   // }
+  /** Whether the number of selected elements matches the total number of rows. */
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  // console.log(numSelected)
+   this.selectedData = this.selection.selected
+
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+masterToggle() {
+  this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+}
 }
