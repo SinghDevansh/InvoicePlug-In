@@ -40,16 +40,17 @@ const loginUser = async (req, res) => {
    
     const { email, password } = req.body
     const user = await User.findOne({ email })
-    const matchPassword = (password) => {
+    let matchPassword = (password) => {
         const confirmPassword = user.password
         return bcrypt.compare(password, confirmPassword)
     }
+    //console.log(user)
     if (user && (await matchPassword(password)))
     {
         res.json({
             id: user._id,
             name: user.name,
-            email: user.email,
+            //email: user.email,
             isSuperAdmin: user.isSuperAdmin,
             isSalesRep: user.isSalesRep,
             token:generateToken(user._id)

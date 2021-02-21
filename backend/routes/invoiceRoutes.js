@@ -1,4 +1,5 @@
-import express from 'express'
+
+const express = require('express')
 import {
     createInvoices,
     getInvoices,
@@ -6,7 +7,8 @@ import {
     updateInvoice,
     deleteInvoice,
     generateInvoiceNumber,
-    getInvoiceById
+    getInvoiceById,
+    updateStatus
 } from '../controller/invoiceController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
@@ -20,5 +22,6 @@ Router.route('/getallinvoices').get(protect, admin, getAllInvoices)
 Router.route('/invoicenumber').get(protect, generateInvoiceNumber)
 Router.route('/:id').put(protect, updateInvoice)
 Router.route('/:id').delete(protect, deleteInvoice)
+Router.route('/editstatus/:id').put(protect, updateStatus)
 
 export default Router

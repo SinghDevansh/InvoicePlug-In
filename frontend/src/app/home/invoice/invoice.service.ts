@@ -39,6 +39,14 @@ export class InvoiceService {
   deleteInvoice(id) {
     return this.http.delete(`${this.ROOT_URL}/api/invoices/${id}`)
   }
+  updateStatus(id, Status)
+  {
+    let selectedStatus = {
+      selectedStatus:Status
+    }
+    console.log(selectedStatus)
+    return this.http.put(`${this.ROOT_URL}/api/invoices/editstatus/${id}`,selectedStatus)
+  }
   async genratePdf(invoice) {
     let docDefinition = {
       content: [

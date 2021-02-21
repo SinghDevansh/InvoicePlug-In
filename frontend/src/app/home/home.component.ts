@@ -50,8 +50,8 @@ export class HomeComponent implements OnInit{
   ngOnInit() {
     //document.body.className = 'selector'
     let userData = JSON.parse(localStorage.getItem('user'))
-    console.log(localStorage.getItem('user'))
-    console.log(userData)
+    //console.log(localStorage.getItem('user'))
+    //console.log(userData)
       if (userData.isSuperAdmin === true)
         {
           this.onGetUser()
@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit{
       this.dataSource = new MatTableDataSource(res)
       this.dataSource.sort = this.sort
       this.dataSource.paginator = this.paginator
-      console.log(this.dataSource)
+      //console.log(this.dataSource)
 
     })
    }
@@ -87,14 +87,7 @@ export class HomeComponent implements OnInit{
     this.dialog.open(UserFormComponent, dialogConfig)
 
   }
-  // createEditForm() {
-  //   this.userEditForm = new FormGroup({
-  //     name: new FormControl('',[Validators.required]),
-  //     email: new FormControl('',[Validators.required, Validators.email]),
-  //     password: new FormControl('', [Validators.required]),
-  //     selected: new FormControl()
-  //   })
-  // }
+
   editUser(id) {
     this.router.navigate([`/${id}/edit`], { relativeTo: this.route })
     this.editMode = true
@@ -175,12 +168,7 @@ export class HomeComponent implements OnInit{
    // this.dataSource.data = this.selectedData
 
 }
-  // private refreshTable() {
-  //   // Refreshing table using paginator
-  //   // Thanks yeager-j for tips
-  //   // https://github.com/marinantonio/angular-mat-table-crud/issues/12
-  //   this.paginator._changePageSize(this.paginator.pageSize);
-  // }
+
   /** Whether the number of selected elements matches the total number of rows. */
 isAllSelected() {
   const numSelected = this.selection.selected.length;

@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs'
 
 import Invoice from './invoiceModel.js'
 
+
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,

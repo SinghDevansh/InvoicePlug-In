@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 
+
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -15,12 +16,7 @@ const productSchema = new mongoose.Schema({
         required: true
     }
 })
-// const statusSchema = new mongoose.Schema({
-//     status: {
-//         type: String,
-//         required:true
-//     }
-// })
+
 const invoiceSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,

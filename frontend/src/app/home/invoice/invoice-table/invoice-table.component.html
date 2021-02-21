@@ -15,11 +15,12 @@
                     [checked]="selection.hasValue() && isAllSelected()"
                     [indeterminate]="selection.hasValue() && !isAllSelected()">
       </mat-checkbox>
-  <select class="button-style">
-    <option >Batch</option>
-    <option>Mark as Paid</option>
-    <option>Mark as Unpaid</option>
-    <option>Mark as cancelled</option>
+  <select class="button-style" style="width:20%" (change)="onChange($event)">
+    <option selected>Batch</option>
+    <option value="Paid">Mark as Paid</option>
+    <option value="UnPaid">Mark as Unpaid</option>
+    <option value="Cancelled">Mark as cancelled</option>
+    <option value="Drafted">Mark as Drafted</option>
   </select>
 <div style="margin-left: 80%;">
 <a  style="cursor: pointer;color: blue;padding-right:15px ;" (click)="deleteAll()">Delete All</a>

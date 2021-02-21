@@ -134,7 +134,7 @@ export class InvoiceFormComponent implements OnInit {
   onChange() {
     this.invoiceService.generateInvoiceNumber().subscribe(res => {
       this.in = res
-      console.log(this.in)
+      //console.log(this.in)
       if (this.invoiceForm.value.creator === 'SocialEngineAddOns') {
         this.invoiceForm.patchValue({
          invoiceNumber: `000${this.in}/SE/20-21`

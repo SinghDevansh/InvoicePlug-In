@@ -34,7 +34,7 @@ export class InvoiceTableComponent implements OnInit {
     if (JSON.parse(localStorage.getItem('user')).isSuperAdmin) {
     this.invoiceService.getAllInvoices().subscribe(res => {
       this.dataSource = new MatTableDataSource(res);
-      console.log(this.dataSource)
+      //console.log(this.dataSource)
       this.dataSource.sort = this.sort
       this.dataSource.paginator = this.paginator
     }, error => {
@@ -107,6 +107,38 @@ isAllSelected() {
   const numRows = this.dataSource.data.length;
   return numSelected === numRows;
 }
+onChange(event){
+  //console.log(event.target.value)
+
+  //console.log(this.selectedData)
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    data: {
+      message: 'Are you sure want to change status of all Invoices?',
+      buttonText: {
+        ok: 'Yes',
+        cancel: 'No'
+      }
+    }
+  });
+  dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+    if (confirmed) {
+      let selectedStatus = event.target.value
+      const selectedDataStatus = this.selectedData
+      for(let i =0; i<selectedDataStatus.length;i++){
+        let status = selectedDataStatus[i]._id
+        this.invoiceService.updateStatus(status, selectedStatus).subscribe((res)=>{
+            //console.log(res)
+        })
+        //console.log(status)
+      }
+      this.ngOnInit()
+
+
+    }
+
+  })
+
+  }
   deleteAll() {
     for (let i = 0; i < this.selectedData.length; i++){
       //console.log(this.selectedData[i])

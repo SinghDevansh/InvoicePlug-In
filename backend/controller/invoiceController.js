@@ -170,6 +170,23 @@ const deleteInvoice = expressAsyncHandler(async (req, res, next) => {
         res.json({ message: 'try again' })
     }
 })
+const updateStatus = expressAsyncHandler(async (req,res)=>{
+    
+    const invoice = await Invoice.findById(req.params.id)
+    //console.log(invoice)
+    console.log(req.body)
+    if(invoice){
+        invoice.status = req.body.selectedStatus
+        const updatedInvoice = await invoice.save()
+        //console.log(updatedInvoice)
+        res.json({
+          message:'status updated'
+        })
+        
+    }else{
+        res.json({message:'Invoice not found'})
+    }
+})
 export {
     createInvoices,
     getInvoices,
@@ -177,5 +194,6 @@ export {
     updateInvoice,
     deleteInvoice,
     generateInvoiceNumber,
-    getInvoiceById
+    getInvoiceById,
+    updateStatus
 }
